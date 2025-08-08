@@ -131,6 +131,7 @@ export function useRealtimeSession(callbacks: RealtimeSessionCallbacks = {}) {
       sessionRef.current = new RealtimeSession(rootAgent, {
         transport: new OpenAIRealtimeWebRTC({
           audioElement,
+          useInsecureApiKey: true,
           // Set preferred codec before offer creation
           changePeerConnection: async (pc: RTCPeerConnection) => {
             applyCodec(pc);
