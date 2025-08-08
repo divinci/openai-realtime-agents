@@ -17,7 +17,7 @@ export const handoverToInterviewer = tool({
     required: ['reason'],
     additionalProperties: false,
   },
-  execute: async (input: any) => {
+  execute: async () => {
     return { success: true, message: 'Handover initiated' };
   },
 });
@@ -36,7 +36,7 @@ export const endSession = tool({
     required: ['reason'],
     additionalProperties: false,
   },
-  execute: async (input: any, details: any) => {
+  execute: async (_input: any, details: any) => {
     const context = details?.context as any;
     if (context?.disconnect) {
       context.disconnect();
