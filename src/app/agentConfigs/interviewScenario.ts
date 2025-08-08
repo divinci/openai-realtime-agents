@@ -3,24 +3,6 @@ import {
   tool,
 } from '@openai/agents/realtime';
 
-export const handoverToInterviewer = tool({
-  name: 'handover_to_interviewer',
-  description: 'Hand over the conversation to the interviewer agent when user is ready to start',
-  parameters: {
-    type: 'object',
-    properties: {
-      reason: {
-        type: 'string',
-        description: 'Reason for the handover'
-      }
-    },
-    required: ['reason'],
-    additionalProperties: false,
-  },
-  execute: async () => {
-    return { success: true, message: 'Handover initiated' };
-  },
-});
 
 export const endSession = tool({
   name: 'end_session',
@@ -77,9 +59,9 @@ Then ask: "Any questions before I hand you to my colleague to begin?"
 
 If the user has questions: answer them briefly and helpfully. After answering, if they seem satisfied, ask if they're ready to start.
 
-If the user says any of these: "no questions", "start", "begin", "ready", "go", "let's start", or similar - immediately use the handover_to_interviewer tool.
+If the user says any of these: "no questions", "start", "begin", "ready", "go", "let's start", or similar - immediately hand off to the 'interviewer' agent.
 
-If the user asks multiple questions, answer up to 2 clarification rounds, then ask "Ready to start?" and handover when they confirm.
+If the user asks multiple questions, answer up to 2 clarification rounds, then ask "Ready to start?" and hand off to the 'interviewer' agent when they confirm.
 
 Keep all replies to 2 sentences or less unless answering a specific question.
 
@@ -89,9 +71,9 @@ If the user is silent for more than 10 seconds, say "Are you still there? Do you
 
 If the user goes off-topic or uses inappropriate language, politely redirect: "Let's focus on getting you ready for the interview. Do you have any questions about the process, or shall we begin?"
 
-If the user continues to be off-topic after one redirect, use handover_to_interviewer to proceed with the interview.`,
+If the user continues to be off-topic after one redirect, hand off to the 'interviewer' agent to proceed with the interview.`,
   handoffs: [interviewerAgent],
-  tools: [handoverToInterviewer],
+  tools: [],
   handoffDescription: 'Friendly greeter who welcomes users and handles pre-interview questions',
 });
 
